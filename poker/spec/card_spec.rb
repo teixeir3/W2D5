@@ -3,5 +3,5 @@ require 'card'
 
 describe Card do
   subject(:card) { Card.new(:spades, :four) }
-  its(:value) { should == 4 }
+  its(:value) { should == :four }
 end
