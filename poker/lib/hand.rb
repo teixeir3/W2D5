@@ -76,8 +76,7 @@ class Hand
   end
 
   def has_straight?
-    values = @cards.map(&:get_poker_value).sort
-    (values[0]..values[-1]).to_a == values ? true : false
+    (sort_hand[0]..sort_hand[-1]).to_a == sort_hand ? true : false
   end
 
   def has_flush?
@@ -92,5 +91,17 @@ class Hand
 
   def has_straight_flush?
     has_straight? ? has_flush? : false
+  end
+
+  def has_royal_flush?
+    (10..14).to_a == sort_hand ? has_flush? : false
+  end
+
+  def get_high_card
+    sort_hand.last
+  end
+
+  def sort_hand
+    @cards.map(&:get_poker_value).sort
   end
 end

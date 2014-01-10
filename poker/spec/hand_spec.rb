@@ -1,8 +1,8 @@
 require 'rspec'
 require 'hand'
 
-# ( ) Straight flush
-#     Royal flush
+# (x) Straight flush
+# (x) Royal flush
 # (x) Four of a kind
 # (x) Full house
 # (x) Flush
@@ -267,6 +267,86 @@ describe Hand do
 
       test_hand = Hand.new([card1, card2, card3, card4, card5])
       expect(test_hand).to_not be_has_straight_flush
+    end
+  end
+
+  describe "#has_royal_flush?" do
+
+    it "returns true if it has a royal flush" do
+      card1.stub(:get_poker_value).and_return(10)
+      card2.stub(:get_poker_value).and_return(11)
+      card3.stub(:get_poker_value).and_return(12)
+      card4.stub(:get_poker_value).and_return(13)
+      card5.stub(:get_poker_value).and_return(14)
+      card1.stub(:suit).and_return(:spades)
+      card2.stub(:suit).and_return(:spades)
+      card3.stub(:suit).and_return(:spades)
+      card4.stub(:suit).and_return(:spades)
+      card5.stub(:suit).and_return(:spades)
+
+      test_hand = Hand.new([card1, card2, card3, card4, card5])
+      expect(test_hand).to be_has_royal_flush
+    end
+
+    it "returns false if it has a flush, but not royal :(" do
+      card1.stub(:get_poker_value).and_return(10)
+      card2.stub(:get_poker_value).and_return(9)
+      card3.stub(:get_poker_value).and_return(11)
+      card4.stub(:get_poker_value).and_return(12)
+      card5.stub(:get_poker_value).and_return(13)
+      card1.stub(:suit).and_return(:spades)
+      card2.stub(:suit).and_return(:spades)
+      card3.stub(:suit).and_return(:spades)
+      card4.stub(:suit).and_return(:spades)
+      card5.stub(:suit).and_return(:spades)
+
+      test_hand = Hand.new([card1, card2, card3, card4, card5])
+      expect(test_hand).to_not be_has_royal_flush
+    end
+
+    it "returns false if it is a royal straight but not flush" do
+      card1.stub(:get_poker_value).and_return(10)
+      card2.stub(:get_poker_value).and_return(11)
+      card3.stub(:get_poker_value).and_return(12)
+      card4.stub(:get_poker_value).and_return(13)
+      card5.stub(:get_poker_value).and_return(14)
+      card1.stub(:suit).and_return(:spades)
+      card2.stub(:suit).and_return(:hearts)
+      card3.stub(:suit).and_return(:spades)
+      card4.stub(:suit).and_return(:clubs)
+      card5.stub(:suit).and_return(:spades)
+
+      test_hand = Hand.new([card1, card2, card3, card4, card5])
+      expect(test_hand).to_not be_has_royal_flush
+    end
+
+    it "returns false if it's a shitty hand" do
+      card1.stub(:get_poker_value).and_return(2)
+      card2.stub(:get_poker_value).and_return(5)
+      card3.stub(:get_poker_value).and_return(6)
+      card4.stub(:get_poker_value).and_return(8)
+      card5.stub(:get_poker_value).and_return(3)
+      card1.stub(:suit).and_return(:spades)
+      card2.stub(:suit).and_return(:hearts)
+      card3.stub(:suit).and_return(:spades)
+      card4.stub(:suit).and_return(:clubs)
+      card5.stub(:suit).and_return(:spades)
+
+      test_hand = Hand.new([card1, card2, card3, card4, card5])
+      expect(test_hand).to_not be_has_royal_flush
+    end
+  end
+
+  describe "#get_high_card" do
+    it "returns the highest card in your hand" do
+      card1.stub(:get_poker_value).and_return(2)
+      card2.stub(:get_poker_value).and_return(5)
+      card3.stub(:get_poker_value).and_return(6)
+      card4.stub(:get_poker_value).and_return(8)
+      card5.stub(:get_poker_value).and_return(3)
+
+      test_hand = Hand.new([card1, card2, card3, card4, card5])
+      expect(test_hand.get_high_card).to eq(8)
     end
   end
 end
