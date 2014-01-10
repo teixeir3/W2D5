@@ -55,4 +55,8 @@ class Card
     VALUE_STRINGS.keys
   end
 
+  def get_poker_value
+    POKER_VALUES[@value]
+  end
+
 end
