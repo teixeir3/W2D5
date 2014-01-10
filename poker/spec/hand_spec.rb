@@ -222,11 +222,6 @@ describe Hand do
   describe "#has_straight_flush?" do
 
     it "returns true if it has a straight flush" do
-      card1.stub(:value).and_return(:two)
-      card2.stub(:value).and_return(:three)
-      card3.stub(:value).and_return(:four)
-      card4.stub(:value).and_return(:five)
-      card5.stub(:value).and_return(:six)
       card1.stub(:suit).and_return(:spades)
       card2.stub(:suit).and_return(:spades)
       card3.stub(:suit).and_return(:spades)
@@ -242,12 +237,7 @@ describe Hand do
       expect(test_hand).to be_has_straight_flush
     end
 
-    it "returns false if it doesn't have a straight flush" do
-      card1.stub(:value).and_return(:two)
-      card2.stub(:value).and_return(:three)
-      card3.stub(:value).and_return(:two)
-      card4.stub(:value).and_return(:four)
-      card5.stub(:value).and_return(:two)
+    it "returns false if it has flush but no straight" do
       card1.stub(:suit).and_return(:spades)
       card2.stub(:suit).and_return(:spades)
       card3.stub(:suit).and_return(:spades)
@@ -258,6 +248,22 @@ describe Hand do
       card3.stub(:get_poker_value).and_return(2)
       card4.stub(:get_poker_value).and_return(4)
       card5.stub(:get_poker_value).and_return(2)
+
+      test_hand = Hand.new([card1, card2, card3, card4, card5])
+      expect(test_hand).to_not be_has_straight_flush
+    end
+
+    it "returns false if it has straight but no flush" do
+      card1.stub(:suit).and_return(:clubs)
+      card2.stub(:suit).and_return(:spades)
+      card3.stub(:suit).and_return(:spades)
+      card4.stub(:suit).and_return(:spades)
+      card5.stub(:suit).and_return(:spades)
+      card1.stub(:get_poker_value).and_return(4)
+      card2.stub(:get_poker_value).and_return(3)
+      card3.stub(:get_poker_value).and_return(2)
+      card4.stub(:get_poker_value).and_return(5)
+      card5.stub(:get_poker_value).and_return(6)
 
       test_hand = Hand.new([card1, card2, card3, card4, card5])
       expect(test_hand).to_not be_has_straight_flush

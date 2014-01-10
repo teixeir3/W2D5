@@ -89,4 +89,8 @@ class Hand
   def has_full_house?
     two_pair? ? three_of_a_kind? : false
   end
+
+  def has_straight_flush?
+    has_straight? ? has_flush? : false
+  end
 end
