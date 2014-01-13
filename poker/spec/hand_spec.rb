@@ -1,5 +1,6 @@
 require 'rspec'
 require 'hand'
+require 'card'
 
 # (x) Straight flush
 # (x) Royal flush
@@ -15,7 +16,7 @@ require 'hand'
 
 
 describe Hand do
-  return_cards = [ Card.new(:clubs, :two),
+  return_cards = [ Card.new(:clubs, :deuce),
                  Card.new(:spades, :three)]
 
   let(:card1) { double("card1") }
@@ -29,7 +30,7 @@ describe Hand do
     card1.stub(:suit).and_return(:spades)
     card1.stub(:value).and_return(:three)
     card2.stub(:suit).and_return(:clubs)
-    card2.stub(:value).and_return(:two)
+    card2.stub(:value).and_return(:deuce)
 
     expect(hand.cards.count).to eq(2)
   end
@@ -37,8 +38,8 @@ describe Hand do
   describe "#pair?" do
     it "should true hand contains a pair" do
       card1.stub(:value).and_return(:three)
-      card2.stub(:value).and_return(:two)
-      card3.stub(:value).and_return(:two)
+      card2.stub(:value).and_return(:deuce)
+      card3.stub(:value).and_return(:deuce)
 
       test_hand = Hand.new([card1, card2, card3])
       expect(test_hand).to be_pair
@@ -46,7 +47,7 @@ describe Hand do
 
     it "should return false if no pair is present" do
       card1.stub(:value).and_return(:three)
-      card2.stub(:value).and_return(:two)
+      card2.stub(:value).and_return(:deuce)
       card3.stub(:value).and_return(:four)
 
       test_hand = Hand.new([card1, card3])
@@ -56,18 +57,18 @@ describe Hand do
 
   describe "#three_of_a_kind" do
     it "should return true if hand contains three of a kind" do
-      card1.stub(:value).and_return(:two)
-      card2.stub(:value).and_return(:two)
-      card3.stub(:value).and_return(:two)
+      card1.stub(:value).and_return(:deuce)
+      card2.stub(:value).and_return(:deuce)
+      card3.stub(:value).and_return(:deuce)
 
       test_hand = Hand.new([card1, card2, card3])
       expect(test_hand).to be_three_of_a_kind
     end
 
     it "should return false if hand doesn't contain three of a kind" do
-      card1.stub(:value).and_return(:two)
+      card1.stub(:value).and_return(:deuce)
       card2.stub(:value).and_return(:four)
-      card3.stub(:value).and_return(:two)
+      card3.stub(:value).and_return(:deuce)
 
       test_hand = Hand.new([card1, card2, card3])
       expect(test_hand).to_not be_three_of_a_kind
@@ -76,17 +77,17 @@ describe Hand do
 
   describe "#four_of_a_kind" do
     it "should return true if hand contains four of a kind" do
-      card1.stub(:value).and_return(:two)
-      card2.stub(:value).and_return(:two)
-      card3.stub(:value).and_return(:two)
-      card4.stub(:value).and_return(:two)
+      card1.stub(:value).and_return(:deuce)
+      card2.stub(:value).and_return(:deuce)
+      card3.stub(:value).and_return(:deuce)
+      card4.stub(:value).and_return(:deuce)
 
       test_hand = Hand.new([card1, card2, card3, card4])
       expect(test_hand).to be_four_of_a_kind
     end
 
     it "should return false if hand doesn't contain four of a kind" do
-      card1.stub(:value).and_return(:two)
+      card1.stub(:value).and_return(:deuce)
       card2.stub(:value).and_return(:four)
       card3.stub(:value).and_return(:three)
 
@@ -97,8 +98,8 @@ describe Hand do
 
   describe "#two_pair?" do
     it "should return true if there are two pairs" do
-      card1.stub(:value).and_return(:two)
-      card2.stub(:value).and_return(:two)
+      card1.stub(:value).and_return(:deuce)
+      card2.stub(:value).and_return(:deuce)
       card3.stub(:value).and_return(:three)
       card4.stub(:value).and_return(:three)
       card1.stub(:suit).and_return(:spades)
@@ -111,8 +112,8 @@ describe Hand do
     end
 
     it "should return false if there are two pairs" do
-      card1.stub(:value).and_return(:two)
-      card2.stub(:value).and_return(:two)
+      card1.stub(:value).and_return(:deuce)
+      card2.stub(:value).and_return(:deuce)
       card3.stub(:value).and_return(:four)
       card4.stub(:value).and_return(:three)
       card1.stub(:suit).and_return(:spades)
@@ -128,7 +129,7 @@ describe Hand do
 
   describe "#has_straight" do
     it "should return true if given a straight" do
-      card1.stub(:value).and_return(:two)
+      card1.stub(:value).and_return(:deuce)
       card2.stub(:value).and_return(:three)
       card3.stub(:value).and_return(:four)
       card4.stub(:value).and_return(:five)
@@ -144,9 +145,9 @@ describe Hand do
     end
 
     it "should return false if not given a straight" do
-      card1.stub(:value).and_return(:two)
+      card1.stub(:value).and_return(:deuce)
       card2.stub(:value).and_return(:three)
-      card3.stub(:value).and_return(:two)
+      card3.stub(:value).and_return(:deuce)
       card4.stub(:value).and_return(:five)
       card5.stub(:value).and_return(:six)
       card1.stub(:get_poker_value).and_return(2)
@@ -187,11 +188,11 @@ describe Hand do
   describe "#has_full_house?" do
 
     it "returns true if it has a full house" do
-      card1.stub(:value).and_return(:two)
+      card1.stub(:value).and_return(:deuce)
       card2.stub(:value).and_return(:three)
-      card3.stub(:value).and_return(:two)
+      card3.stub(:value).and_return(:deuce)
       card4.stub(:value).and_return(:three)
-      card5.stub(:value).and_return(:two)
+      card5.stub(:value).and_return(:deuce)
       card1.stub(:suit).and_return(:spades)
       card2.stub(:suit).and_return(:clubs)
       card3.stub(:suit).and_return(:hearts)
@@ -202,12 +203,12 @@ describe Hand do
       expect(test_hand).to be_has_full_house
     end
 
-    it "returns false if it has a full house" do
-      card1.stub(:value).and_return(:two)
+    it "returns false if it doesn't have a full house" do
+      card1.stub(:value).and_return(:deuce)
       card2.stub(:value).and_return(:three)
-      card3.stub(:value).and_return(:two)
+      card3.stub(:value).and_return(:deuce)
       card4.stub(:value).and_return(:four)
-      card5.stub(:value).and_return(:two)
+      card5.stub(:value).and_return(:deuce)
       card1.stub(:suit).and_return(:spades)
       card2.stub(:suit).and_return(:clubs)
       card3.stub(:suit).and_return(:hearts)
@@ -349,4 +350,227 @@ describe Hand do
       expect(test_hand.get_high_card).to eq(8)
     end
   end
+end
+
+
+
+describe Hand do
+  let(:cards) {[
+                Card.new(:spades, :ten),
+                Card.new(:hearts, :five),
+                Card.new(:hearts, :ace),
+                Card.new(:diamonds, :deuce),
+                Card.new(:hearts, :deuce)
+                ]}
+
+  subject(:hand) { Hand.new(cards) }
+  its(:cards) { should =~ cards }
+  let!(:taken_cards) { hand.cards[0..1] }
+  let!(:new_cards) { [Card.new(:spades, :five), Card.new(:clubs, :three)] }
+
+  describe "#trade_cards" do
+    it "discards specified cards" do
+      hand.trade_cards(taken_cards, new_cards)
+      hand.cards.should_not include(*taken_cards)
+    end
+
+    it "takes specified cards" do
+      hand.trade_cards(taken_cards, new_cards)
+      hand.cards.should include(*new_cards)
+    end
+
+    it "raies an error if trade doesn't result in 5 cards" do
+      expect do
+        hand.trade_cards(hand.cards[0..0], new_cards)
+      end.to raise_error 'Must have five cards.'
+    end
+
+    it "raises an error if trade discards unowned cards" do
+      expect do
+        hand.trade_cards([Card.new(:hearts, :ten)], new_cards[0..0])
+      end.to raise_error 'Cannot discard unowned card(s).'
+    end
+
+  end
+
+  ######### Examples of each type of hand ###########
+
+  describe 'poker hands' do
+
+  end
+
+  describe "hand_rank" do
+    let(:royal_flush) do
+        Hand.new([
+          Card.new(:spades, :ace),
+          Card.new(:spades, :king),
+          Card.new(:spades, :queen),
+          Card.new(:spades, :jack),
+          Card.new(:spades, :ten)
+        ])
+    end
+
+    let(:straight_flush) do
+        Hand.new([
+          Card.new(:spades, :eight),
+          Card.new(:spades, :seven),
+          Card.new(:spades, :six),
+          Card.new(:spades, :five),
+          Card.new(:spades, :four)
+        ])
+    end
+
+    let(:four_of_a_kind) do
+        Hand.new([
+          Card.new(:spades, :ace),
+          Card.new(:hearts, :ace),
+          Card.new(:diamonds, :ace),
+          Card.new(:clubs, :ace),
+          Card.new(:spades, :ten)
+        ])
+    end
+
+    let(:full_house) do
+        Hand.new([
+          Card.new(:spades, :ace),
+          Card.new(:clubs, :ace),
+          Card.new(:spades, :king),
+          Card.new(:hearts, :king),
+          Card.new(:diamonds, :king)
+        ])
+    end
+
+    let(:flush) do
+        Hand.new([
+          Card.new(:spades, :four),
+          Card.new(:spades, :seven),
+          Card.new(:spades, :ace),
+          Card.new(:spades, :deuce),
+          Card.new(:spades, :eight)
+        ])
+    end
+
+    let(:straight) do
+        Hand.new([
+          Card.new(:hearts, :king),
+          Card.new(:hearts, :queen),
+          Card.new(:diamonds, :jack),
+          Card.new(:clubs, :ten),
+          Card.new(:spades, :nine)
+        ])
+    end
+
+    let(:three_of_a_kind) do
+        Hand.new([
+          Card.new(:spades, :three),
+          Card.new(:diamonds, :three),
+          Card.new(:hearts, :three),
+          Card.new(:spades, :jack),
+          Card.new(:spades, :ten)
+        ])
+    end
+
+    let(:two_pair) do
+        Hand.new([
+          Card.new(:hearts, :king),
+          Card.new(:diamonds, :king),
+          Card.new(:spades, :queen),
+          Card.new(:clubs, :queen),
+          Card.new(:spades, :ten)
+        ])
+    end
+
+    let(:one_pair) do
+        Hand.new([
+          Card.new(:spades, :ace),
+          Card.new(:spades, :ace),
+          Card.new(:hearts, :queen),
+          Card.new(:diamonds, :jack),
+          Card.new(:hearts, :ten)
+        ])
+    end
+
+    let(:high_card) do
+        Hand.new([
+          Card.new(:spades, :deuce),
+          Card.new(:hearts, :four),
+          Card.new(:diamonds, :six),
+          Card.new(:spades, :nine),
+          Card.new(:spades, :ten)
+        ])
+    end
+
+    let(:hand_ranks) do
+        [
+          :royal_flush,
+          :straight_flush,
+          :four_of_a_kind,
+          :full_house,
+          :flush,
+          :straight,
+          :three_of_a_kind,
+          :two_pair,
+          :one_pair,
+          :high_card
+        ]
+    end
+
+    let!(:hands) do
+        [
+          royal_flush,
+          straight_flush,
+          four_of_a_kind,
+          full_house,
+          flush,
+          straight,
+          three_of_a_kind,
+          two_pair,
+          one_pair,
+          high_card
+        ]
+    end
+
+    let!(:hands) do
+        [
+          royal_flush,
+          straight_flush,
+          four_of_a_kind,
+          full_house,
+          flush,
+          straight,
+          three_of_a_kind,
+          two_pair,
+          one_pair,
+          high_card
+        ]
+    end
+
+    it "should identify the correct hand rank" do
+      hands.each_with_index do |hand, i|
+        p hand.cards
+        p hand.hand_rank
+        p hand_ranks[i]
+        (hand.hand_rank == hand_ranks[i]).should be_true
+      end
+    end
+  end
+
+  # describe "#<=>" do
+ #
+ #    it "returns 1 for a hand with a higher rank" do
+ #
+ #    end
+ #
+ #    it "returns -1 for a hand with a higher rank" do
+ #
+ #    end
+ #
+ #    it "returns 0 for a hand with a higher rank" do
+ #
+ #    end
+ #
+ #
+ #  end
+
+
 end

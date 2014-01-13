@@ -1,5 +1,5 @@
 require 'rspec'
-require 'card'
+require_relative 'card.rb'
 
 describe Card do
   subject(:card) { Card.new(:spades, :four) }

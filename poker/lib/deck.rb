@@ -1,3 +1,5 @@
+require_relative 'card.rb'
+
 class Deck
 
   attr_reader :cards
