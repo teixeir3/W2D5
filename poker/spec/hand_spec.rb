@@ -547,9 +547,6 @@ describe Hand do
 
     it "should identify the correct hand rank" do
       hands.each_with_index do |hand, i|
-        p hand.cards
-        p hand.hand_rank
-        p hand_ranks[i]
         (hand.hand_rank == hand_ranks[i]).should be_true
       end
     end
